@@ -1,33 +1,32 @@
-//numbers like 9663 or 27 will generate a big graph, try if you want :)
 const fs = require('fs')
 var readline = require('readline');
 var rl = readline.createInterface(
      process.stdin, process.stdout);
 
-rl.question('-> ', (n) => {
-fs.appendFileSync(__dirname+'/logs.txt','t:'+n.toString())
+rl.question('-> ', (n) => { // asks user wich number to use.
+fs.appendFileSync(__dirname+'/logs.txt','t:'+n.toString()) // write in logs the input number.
 if(Number.isInteger(parseInt(n))){
 var end_num = n;
 
 var steps = 0;
 
 const config = {
-	"graph_decrease":end_num/2,
-	"graph_char":"#",
-	"formula_type":"+"
+	"chart_decrease":end_num/2, // to the terminal chart don't be too big, it's recommended you use end_num/2, but you can use any other number if you want.
+	"chart_char":"#", // the char that will make the charts.
+	"formula_type":"+" // the original formula is 3n+1, but if you change this option to - the formula used will be 3n-1.
 }
 
 console.clear()
 
-function graph(size){
+function terminalchart(size){
 	var start = []
 	while (true) {
 		if(size <= 0){
 			return start.join().replaceAll(',','')
 			break;
 		}
-		size -= config.graph_decrease
-		start.push(config.graph_char)
+		size -= config.chart_decrease
+		start.push(config.chart_char)
 	}
 }
 
@@ -47,7 +46,7 @@ var oldn = 0;
 var newn = 0;
 
 while (true) {
-	fp.push(graph(end_num)+`     [ ${end_num} (${check(end_num)})]`)
+	fp.push(terminalchart(end_num)+`     [ ${end_num} (${check(end_num)})]`)
 	numlist.push(end_num)
 	if(config.formula_type == '+' && end_num==1|| config.formula_type == '-' && end_num==5){
 		console.log(fp.join().replaceAll(',','\n'))
@@ -55,6 +54,7 @@ while (true) {
 		fs.appendFileSync(__dirname+'/logs.txt',' | finished:'+n.toString()+` | Steps: ${steps} | Biggest Number: ${mor(numlist)} (${check(mor(numlist))})\n`)
 		break;
 	}
+	
 	if (end_num%2==1){
 		if(config.formula_type=='-'){
 			steps+=1;
